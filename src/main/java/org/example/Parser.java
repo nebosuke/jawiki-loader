@@ -3,6 +3,7 @@ package org.example;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
@@ -20,6 +21,7 @@ public class Parser implements Runnable {
     public void run() {
         try (BZip2CompressorInputStream in = new BZip2CompressorInputStream(new FileInputStream(bz2))) {
             var factory = SAXParserFactory.newInstance();
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, false);
             var parser = factory.newSAXParser();
             parser.parse(in, new WikiHandler());
         } catch (ParserConfigurationException | SAXException | IOException e) {

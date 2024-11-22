@@ -42,7 +42,14 @@ public class WikiHandler extends DefaultHandler {
         } else if ("/mediawiki/page/revision/text".equals(path)) {
             text = value;
         } else if ("/mediawiki/page".equals(path)) {
-            System.out.println("INSERT INTO article(id,title,text) VALUES(" + id + ",X'" + hex(title) + "',X'" + hex(text) + "');");
+            if (id > 0 && title != null && text != null) {
+                System.out.println(
+                        "INSERT INTO article(id,title,text) VALUES(" + id + ",X'" + hex(title) + "',X'" + hex(
+                                text) + "');");
+            }
+            id = 0;
+            title = null;
+            text = null;
         }
 
         int pos = path.lastIndexOf("/");
